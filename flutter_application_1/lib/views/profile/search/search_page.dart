@@ -60,7 +60,8 @@ class _SearchPageState extends State<SearchPage> {
     };
 
     try {
-      final uri = Uri.https('jdih-simprokum.batukota.go.id', '/api/simprokum', params);
+      final uri =
+          Uri.https('jdih-simprokum.batukota.go.id', '/api/simprokum', params);
       print('>> GET $uri');
 
       final resp = await http.get(uri);
@@ -77,9 +78,16 @@ class _SearchPageState extends State<SearchPage> {
       }
 
       final filtered = rawList.where((item) {
-        if (normalizedKeyword.isEmpty) return true;
         final judul = normalize(item['judul'] ?? '');
-        return judul.contains(normalizedKeyword);
+        final nomorItem = item['nomor']?.toString().trim() ?? '';
+        final tahunItem = item['tahun']?.toString().trim() ?? '';
+
+        final matchKeyword =
+            normalizedKeyword.isEmpty || judul.contains(normalizedKeyword);
+        final matchNomor = nomor.isEmpty || nomorItem == nomor;
+        final matchTahun = tahun.isEmpty || tahunItem == tahun;
+
+        return matchKeyword && matchNomor && matchTahun;
       }).toList();
 
       if (mounted) {
@@ -147,13 +155,14 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 _buildTextField(keywordController, 'KATA KUNCI'),
                 const SizedBox(height: 12),
-                _buildDropdown(jenisOptions, selectedJenisDokumen,
-                    'JENIS DOKUMEN', (v) {
+                _buildDropdown(
+                    jenisOptions, selectedJenisDokumen, 'JENIS DOKUMEN', (v) {
                   setState(() => selectedJenisDokumen = v);
                 }),
                 const SizedBox(height: 12),
-                _buildDropdown(bentukOptions, selectedBentukPeraturan,
-                    'BENTUK PERATURAN', (v) {
+                _buildDropdown(
+                    bentukOptions, selectedBentukPeraturan, 'BENTUK PERATURAN',
+                    (v) {
                   setState(() => selectedBentukPeraturan = v);
                 }),
                 const SizedBox(height: 12),
@@ -172,7 +181,8 @@ class _SearchPageState extends State<SearchPage> {
                               borderRadius: BorderRadius.circular(12)),
                         ),
                         child: isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
                             : const Text('CARI',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold)),
@@ -201,8 +211,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController ctrl, String label) =>
-      TextField(
+  Widget _buildTextField(TextEditingController ctrl, String label) => TextField(
         controller: ctrl,
         decoration: InputDecoration(
           labelText: label,
