@@ -68,13 +68,13 @@ class _PeraturanPageState extends State<PeraturanPage> {
       body: Column(
         children: [
           _buildHeader(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: _data.length,
                     itemBuilder: (context, index) {
                       return _buildCard(_data[index]);
@@ -89,32 +89,41 @@ class _PeraturanPageState extends State<PeraturanPage> {
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Color(0xff0f2e3c),
-        borderRadius: BorderRadius.only(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      decoration: BoxDecoration(
+        color: primaryColor,
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            offset: const Offset(0, 2),
+            blurRadius: 8,
+          )
+        ],
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.pop(context),
           ),
-          const Expanded(
+          const SizedBox(width: 8),
+          Expanded(
             child: Text(
-              "Peraturan Perundang undangan\nKOTA BATU",
-              style: TextStyle(
+              "Peraturan Perundang-undangan\nKOTA BATU",
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
+                height: 1.4,
               ),
             ),
           ),
-          Image.asset("assets/images/logo_batu.png", width: 60),
+          const SizedBox(width: 8),
+          Image.asset("assets/images/logo_batu.png", width: 50),
         ],
       ),
     );
@@ -134,27 +143,19 @@ class _PeraturanPageState extends State<PeraturanPage> {
             onPressed: _currentPage > 1 ? _goToPreviousPage : null,
             icon: const Icon(Icons.arrow_back),
             label: const Text("Sebelumnya"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xff0f2e3c),
-              disabledBackgroundColor: Colors.grey.shade300,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            style: _paginationButtonStyle(),
           ),
           const SizedBox(width: 16),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.grey.shade300),
             ),
             child: Text(
               'Halaman $_currentPage / $_totalPages',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(width: 16),
@@ -162,30 +163,29 @@ class _PeraturanPageState extends State<PeraturanPage> {
             onPressed: _currentPage < _totalPages ? _goToNextPage : null,
             icon: const Icon(Icons.arrow_forward),
             label: const Text("Berikutnya"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xff0f2e3c),
-              disabledBackgroundColor: Colors.grey.shade300,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            style: _paginationButtonStyle(),
           ),
         ],
       ),
     );
   }
 
+  ButtonStyle _paginationButtonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: primaryColor,
+      disabledBackgroundColor: Colors.grey.shade300,
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
   Widget _buildCard(HukumModel item) {
     return Card(
-      color: Colors.white,
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -199,7 +199,7 @@ class _PeraturanPageState extends State<PeraturanPage> {
                 color: primaryColor,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             _buildInfoRow("Nomor", item.nomorPeraturan),
             _buildInfoRow("Tahun", item.tahun),
             _buildInfoRow("Tentang", item.tentang),
@@ -211,7 +211,8 @@ class _PeraturanPageState extends State<PeraturanPage> {
             _buildInfoRow("Subjek", item.subjek),
             _buildInfoRow("Pemrakarsa", item.pemrakarsa),
             const SizedBox(height: 16),
-            if (item.lampiranDokumen != null && item.lampiranDokumen!.isNotEmpty)
+            if (item.lampiranDokumen != null &&
+                item.lampiranDokumen!.isNotEmpty)
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -219,7 +220,8 @@ class _PeraturanPageState extends State<PeraturanPage> {
                     final url =
                         'https://jdih-simprokum.batukota.go.id/storage/${item.lampiranDokumen}';
                     if (await canLaunchUrl(Uri.parse(url))) {
-                      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                      await launchUrl(Uri.parse(url),
+                          mode: LaunchMode.externalApplication);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Gagal membuka dokumen')),
@@ -227,15 +229,18 @@ class _PeraturanPageState extends State<PeraturanPage> {
                     }
                   },
                   icon: const Icon(Icons.picture_as_pdf),
-                  label: const Text('Buka Dokumen PDF'),
+                  label: const Text('Lihat Dokumen PDF'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 94, 94, 94),
+                    backgroundColor: Colors.red.shade700,
                     foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

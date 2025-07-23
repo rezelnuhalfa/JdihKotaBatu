@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import '../widgets/footer_navbar.dart';
 import '../models/DetailProdukHukumModel.dart';
-import '../pages/DetailProdukPage.dart';
 
 class ProdukHukumPage extends StatefulWidget {
   const ProdukHukumPage({super.key});
@@ -65,45 +64,53 @@ class _ProdukHukumPageState extends State<ProdukHukumPage> {
 
   Widget buildItem(dynamic item) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        title: Text(
-          item['judul'] ?? 'Tanpa Judul',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (item['nomor_peraturan'] != null)
-              Text(
-                item['nomor_peraturan'],
-                style: const TextStyle(fontSize: 14),
-              ),
-            if (item['tanggal_pengundangan'] != null)
-              Text(
-                'Tanggal: ${item['tanggal_pengundangan']}',
-                style: const TextStyle(fontSize: 12),
-              ),
-          ],
-        ),
-        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
         onTap: () {
           final detail = DetailProdukHukumModel.fromJson(item);
-
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailProdukPage(produk: detail)
+              builder: (context) => DetailProdukPage(produk: detail),
             ),
           );
         },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item['judul'] ?? 'Tanpa Judul',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff0f2e3c),
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (item['nomor_peraturan'] != null)
+                Text(
+                  'Nomor: ${item['nomor_peraturan']}',
+                  style: const TextStyle(fontSize: 14, color: Colors.black87),
+                ),
+              if (item['tanggal_pengundangan'] != null)
+                Text(
+                  'Tanggal: ${item['tanggal_pengundangan']}',
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              const SizedBox(height: 4),
+              const Align(
+                alignment: Alignment.centerRight,
+                child: Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -117,32 +124,41 @@ class _ProdukHukumPageState extends State<ProdukHukumPage> {
           // Header
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
             decoration: const BoxDecoration(
               color: Color(0xff0f2e3c),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6,
+                  offset: Offset(0, 2),
+                )
+              ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
                     "List Produk Hukum\nKOTA BATU",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
+                      height: 1.4,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Image.asset("assets/images/logo_batu.png", width: 60),
+                const SizedBox(width: 8),
+                Image.asset("assets/images/logo_batu.png", width: 50),
               ],
             ),
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 12),
 
           // ListView Produk Hukum
           Expanded(
@@ -164,7 +180,7 @@ class _ProdukHukumPageState extends State<ProdukHukumPage> {
                   } else {
                     return isLoading
                         ? const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: EdgeInsets.symmetric(vertical: 24),
                             child: Center(child: CircularProgressIndicator()),
                           )
                         : const SizedBox();
