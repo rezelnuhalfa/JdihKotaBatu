@@ -183,7 +183,7 @@ class _SearchPageState extends State<SearchPage> {
                         child: isLoading
                             ? const CircularProgressIndicator(
                                 color: Colors.white)
-                            : const Text('CARI',
+                            : const Text('CARI',selectionColor: Color.fromARGB(0, 255, 255, 255),
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold)),
                       ),

@@ -11,20 +11,33 @@ class HukumListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const CircleAvatar(
-        child: Icon(Icons.picture_as_pdf),
+        backgroundColor: Colors.redAccent,
+        child: Icon(Icons.picture_as_pdf, color: Colors.white),
       ),
       title: Text(
         data.judul,
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      subtitle: Text(data.pemrakarsa),
-      trailing: Text(data.tanggal),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(data.pemrakarsa),
+          const SizedBox(height: 2),
+          Text(
+            data.tanggal,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+        ],
+      ),
+      isThreeLine: true,
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailPeraturanPage(hukum: data),
+           builder: (context) => DetailPeraturanPage(hukum: data),
+
           ),
         );
       },

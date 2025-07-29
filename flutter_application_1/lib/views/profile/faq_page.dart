@@ -47,7 +47,7 @@ class FAQPage extends StatelessWidget {
         'answer': 'Kemungkinan Anda belum menginstal aplikasi pembaca PDF seperti Adobe Reader.'
       },
       {
-        'question': 'Bagaimana jika file Produk Hukum tidak tersedia di website?',
+        'question': 'Bagaimana jika file Produk Hukum tidak tersedia di aplikasi?',
         'answer': 'Silakan hubungi kontak pengelola JDIH untuk mengajukan permohonan informasi.'
       },
     ];

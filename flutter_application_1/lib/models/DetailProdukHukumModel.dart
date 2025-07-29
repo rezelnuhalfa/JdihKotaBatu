@@ -1,4 +1,5 @@
 class DetailProdukHukumModel {
+  final int id; // Tambahan
   final String judul;
   final String nomorPeraturan;
   final String tahun;
@@ -18,6 +19,7 @@ class DetailProdukHukumModel {
   final int jumlahDiunduh;
 
   DetailProdukHukumModel({
+    required this.id, // Tambahkan di sini
     required this.judul,
     required this.nomorPeraturan,
     required this.tahun,
@@ -39,6 +41,7 @@ class DetailProdukHukumModel {
 
   factory DetailProdukHukumModel.fromJson(Map<String, dynamic> json) {
     return DetailProdukHukumModel(
+      id: json['id'] ?? 0,
       judul: json['judul'] ?? '',
       nomorPeraturan: json['nomor_peraturan'] ?? '',
       tahun: json['tahun'] ?? '',

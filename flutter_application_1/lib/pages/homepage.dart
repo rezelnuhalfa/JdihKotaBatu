@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jdih_kota_batu/pages/Naskah_Page.dart';
 import 'package:jdih_kota_batu/views/peraturan_page.dart';
 import 'package:jdih_kota_batu/views/semua_peraturan_page.dart';
 import 'package:jdih_kota_batu/views/artikel_page.dart';
@@ -50,8 +51,6 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-
-              // Header Logo
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Color(0xFFFFC107)),
+                                MaterialStatePropertyAll(Color.fromRGBO(255, 193, 7, 1)),
                           ),
                           child: const Text(
                             "Get Started",
@@ -92,14 +91,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    Image.asset("assets/images/logo_batu.png", width: 60),
+                    Row(
+                      children: [
+                        Image.asset("assets/images/md-logo.png", height: 80),
+                        const SizedBox(width: 10),
+                        Image.asset("assets/images/logo_batu.png", height: 80),
+                      ],
+                    ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Menu Ikon (Fitur)
               FiturMenuWidget(
                 onTapPeraturan: () {
                   Navigator.push(context,
@@ -117,23 +119,24 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (_) => const PutusanPage()));
                 },
+                onTapNaskah: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const NaskahPage()));
+                },
               ),
-
               const SizedBox(height: 24),
-
               const Text(
                 'Statistik Produk Hukum',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(height: 12),
-
               FutureBuilder<List<StatistikModel>>(
                 future: _futureStatistik,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Text('Gagal memuat statistik: ${snapshot.error}');
+                    return Text('Gagal memuat statistik: \${snapshot.error}');
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Text('Data statistik tidak tersedia.');
                   }
@@ -148,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 1.8, // <--- perbaikan utama
+                      childAspectRatio: 1.8,
                     ),
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -188,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   Text(
                                     '${item.jumlah} data',
-                                    style: const TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -200,9 +203,79 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-
               const SizedBox(height: 24),
-
+              const Center(
+                child: Text(
+                  'Sambutan',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 6,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              "assets/images/inge.png",
+                              width: 90,
+                              height: 110,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Maria Inge, S.S., S.H., M.H.",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  "Kepala Bagian Hukum Setda Kota Batu",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Puji Syukur Kehadirat Tuhan YME atas terwujudnya JDIH Kota Batu yang sudah lama dinantikan oleh seluruh ASN Pemerintah Kota Batu dan Seluruh Masyarakat Kota Batu.\n\n'
+                        'JDIH Kota Batu yang saat ini hadir ditengah layanan publik di lingkungan Pemerintah Kota Batu semoga dapat menjawab kebutuhan informasi produk hukum yang ada di Kota Batu.\n\n'
+                        'Kami dari bagian hukum sedang mengupayakan untuk dapat menyediakan seluruh informasi produk hukum yang telah ditetapkan oleh Pemerintah Kota Batu berupa Perda dan Perwali. Namun untuk sementara ini, belum dapat kami penuhi secara sepenuhnya. Oleh karena itu JDIH ini tentunya masih banyak kekurangan yang harus kami perbaiki dari waktu ke waktu untuk memberikan layanan yang cepat dan mudah diakses dan tampilan yang sesuai kebutuhan masyarakat. Untuk itu mohon kritikan, saran, dan pendapat guna kesempurnaan website JDIH Kota Batu ini.\n\n'
+                        'Demikian sambutan ini kami sampaikan, atas perhatian dan dukungannya kami sampaikan terima kasih.',
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.justify,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -223,16 +296,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 10),
-
               FutureBuilder<List<HukumModel>>(
                 future: _futurePeraturanTerbaru,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Text('Terjadi kesalahan: ${snapshot.error}');
+                    return Text('Terjadi kesalahan: \${snapshot.error}');
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Text('Tidak ada peraturan terbaru.');
                   }

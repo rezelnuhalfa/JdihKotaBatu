@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FiturMenuWidget extends StatelessWidget {
   final VoidCallback onTapPeraturan;
   final VoidCallback onTapArtikel;
   final VoidCallback onTapMonografi;
   final VoidCallback onTapPutusan;
+  final VoidCallback onTapNaskah;
 
   const FiturMenuWidget({
     super.key,
@@ -12,6 +14,7 @@ class FiturMenuWidget extends StatelessWidget {
     required this.onTapArtikel,
     required this.onTapMonografi,
     required this.onTapPutusan,
+    required this.onTapNaskah,
   });
 
   @override
@@ -26,11 +29,17 @@ class FiturMenuWidget extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.blue,
-                child: Icon(Icons.gavel, color: Colors.white),
+                backgroundColor: Color.fromRGBO(255, 193, 7, 1),
+                child: Icon(Icons.library_books, color: Colors.white),
               ),
               const SizedBox(height: 8),
-              const Text("Peraturan"),
+              Text(
+                "Peraturan",
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
@@ -42,11 +51,17 @@ class FiturMenuWidget extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.orange,
-                child: Icon(Icons.article, color: Colors.white),
+                backgroundColor: Color.fromRGBO(255, 193, 7, 1),
+                child: Icon(Icons.library_books, color: Colors.white),
               ),
               const SizedBox(height: 8),
-              const Text("Artikel"),
+              Text(
+                "Artikel",
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
@@ -58,11 +73,17 @@ class FiturMenuWidget extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.green,
-                child: Icon(Icons.menu_book, color: Colors.white),
+                backgroundColor: Color.fromRGBO(255, 193, 7, 1),
+                child: Icon(Icons.library_books, color: Colors.white),
               ),
               const SizedBox(height: 8),
-              const Text("Monografi"),
+              Text(
+                "Monografi",
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
@@ -74,11 +95,39 @@ class FiturMenuWidget extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.purple,
+                backgroundColor: Color.fromRGBO(255, 193, 7, 1),
                 child: Icon(Icons.library_books, color: Colors.white),
               ),
               const SizedBox(height: 8),
-              const Text("Putusan"),
+              Text(
+                "Putusan",
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Naskah
+        GestureDetector(
+          onTap: onTapNaskah,
+          child: Column(
+            children: [
+              const CircleAvatar(
+                radius: 28,
+                backgroundColor: Color.fromRGBO(255, 193, 7, 1),
+                child: Icon(Icons.library_books, color: Colors.white),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Naskah",
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ],
           ),
         ),
